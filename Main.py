@@ -1,28 +1,14 @@
 #Esse import serve para quando fizemos uma chamada em algo que não existe ainda. Resolve problemas de referências futuras 
 from __future__ import annotations
-# o ABC serve para dizer que é um modelo abstrato, usamos isso na classe usuários. 
-#Pois ela não é instaciada diretamente, serve como base para as outras classes
+# o ABC serve para dizer que é um modelo abstrato, usamos isso na classe usuários,
+#pois ela não é instaciada diretamente, serve como base para as outras classes
 from abc import ABC
 # o datetime é para mostrar datas, como a data de nascimento e futuras datas de avaliação e etc..
 from datetime import date
 
 # o typing é usado para indicar o que a váriavel é, aqui a gente usa o List para definir váriaveis dó tipo lista 
-# e o Optional para casos de que o retorno de uma função seja none.
+# e o Optional para casos de que o retorno de uma função seja none
 from typing import List, Optional
-
-
-
-# MODELO DO SISTEMA ESCOLAR
-
-# Processos de software adotados:
-# - Separação por domínio: classes representam entidades do mundo real (Aluno, Turma, etc.)
-# - Encapsulamento: atributos sensíveis/imutáveis ficam privados e acessados por getters/setters
-# - POO: herança (Usuario -> Professor/Aluno/Responsavel) e associações (Turma contém alunos, etc.)
-# - Validações: regras básicas (nota 0..10, datas, duplicidade em listas)
-#
-# Observação:
-# - Essas classes são somente o básico do sistema, ainda terá muitas outras para ficar 100%
-# -----------------------------------------
 
 
 # ----------------------------
@@ -30,7 +16,7 @@ from typing import List, Optional
 # ----------------------------
 class Usuario(ABC):
     def __init__(self, id_usuario: int, nome: str, email: str):
-        self.__id_usuario = id_usuario             # privado (ela será a chave primeira, ou seja, não deve mudar)
+        self.__id_usuario = id_usuario             # privado (ela será a chave primaria, ou seja, não deve mudar)
         self.__nome = nome                         # privado
         self.__email = email                       # privado
 
@@ -63,11 +49,14 @@ class Usuario(ABC):
 # =========================
 class Aluno(Usuario):
     def __init__(self, id_usuario: int, nome: str, email: str, matricula: str, data_nascimento: date):
-        super().__init__(id_usuario, nome, email)
-        self.__matricula = (matricula or "").strip()   # privado
+        super().__init__(id_usuario, nome, email) #aqui vemos a herança, a classe aluno herda alguns atributos básicos de usuário
+        self.__matricula = (matricula or "").strip()   # recebemos o valor da matricula ou uma string vazia. O strip remove espaços em branco 
         self.__data_nascimento = data_nascimento       # privado
 
-        self.__turmas: List[Turma] = []                # associações
+        # Associações. 
+        # Elas se relacionam entre outras classes, como turmas, avaliações e faltas. um aluno pode ter várias turmas, avaliações e faltas
+
+        self.__turmas: List[Turma] = []                
         self.__avaliacoes: List[Avaliacao] = []
         self.__faltas: List[Falta] = []
 
@@ -82,19 +71,21 @@ class Aluno(Usuario):
         return self.__data_nascimento
 
     def get_turmas(self) -> List["Turma"]:
-        return self.__turmas.copy()
-
+        # o Copy é usado para criar uma copia da lista original, pelo principio de encapsuçamento,
+        # não se possa acessar a lista original e mudar ela usando o get
+        return self.__turmas.copy() 
     def get_avaliacoes(self) -> List["Avaliacao"]:
         return self.__avaliacoes.copy()
 
     def get_faltas(self) -> List["Falta"]:
         return self.__faltas.copy()
 
-    # Métodos de domínio (uso interno do sistema)
+    # Métodos de domínio (uso interno do sistema), ou seja, são ações que os sistema vai fazer sem a intervenção do usuário
+    # Esses métodos são chamados por outras classes para registrar vínculos e eventos
     def _vincular_turma(self, turma: "Turma") -> None:
         if turma not in self.__turmas:
             self.__turmas.append(turma)
-
+    #Esse registro de avaliação, por exemplo, só é executado na classe professor, quando o professor lança uma nota para o aluno
     def _registrar_avaliacao(self, avaliacao: "Avaliacao") -> None:
         self.__avaliacoes.append(avaliacao)
 
@@ -108,6 +99,7 @@ class Aluno(Usuario):
 class Professor(Usuario):
     def __init__(self, id_usuario: int, nome: str, email: str):
         super().__init__(id_usuario, nome, email)
+        # A classe professor tem vínculos com turmas e disciplinas que ele leciona, por isso usamos essas associações
         self.__turmas: List[Turma] = []
         self.__disciplinas: List[Disciplina] = []
 
@@ -120,14 +112,16 @@ class Professor(Usuario):
     def _vincular_turma(self, turma: "Turma") -> None:
         if turma not in self.__turmas:
             self.__turmas.append(turma)
-
+        
+        #Aqui o professor vincula a disciplina que ele leciona, pois ele não pode colocar notas em disciplinas que ele não leciona
     def _vincular_disciplina(self, disciplina: "Disciplina") -> None:
         if disciplina not in self.__disciplinas:
             self.__disciplinas.append(disciplina)
 
     # Processos principais do sistema (lançar nota / falta)
-    def lancar_nota(self, aluno: "Aluno", turma: "Turma", disciplina: "Disciplina", valor: float, data_avaliacao: date) -> "Avaliacao":
-        # Validações de regras de negócio (robustez)
+    def lancar_nota(self, aluno: "Aluno", turma: "Turma", disciplina: "Disciplina", valor: float, data_avaliacao: date) -> "Avaliacao": # Essa seta indicada o tipo de retorno da função
+        
+        # Validações de regras de negócio, testamos aqui se o aluno pertence a turma e se o professor leciona a disciplina nessa turm
         if aluno not in turma.get_alunos():
             raise ValueError("O aluno não pertence a esta turma.")
         if not turma.tem_professor_disciplina(self, disciplina):
@@ -151,11 +145,15 @@ class Professor(Usuario):
 class Responsavel(Usuario):
     def __init__(self, id_usuario: int, nome: str, email: str):
         super().__init__(id_usuario, nome, email)
+
+        #Essa associação indica quais alunos esse responsável está vinculado
         self.__alunos: List[Aluno] = []
 
+    #aqui eu tenho um get para pegar a lista de alunos vinculados a esse responsável
     def get_alunos(self) -> List["Aluno"]:
         return self.__alunos.copy()
 
+    #aqui eu tenho um método para vincular um aluno a esse responsável
     def vincular_aluno(self, aluno: "Aluno") -> None:
         if aluno not in self.__alunos:
             self.__alunos.append(aluno)
@@ -187,6 +185,9 @@ class Disciplina:
 # =========================
 # TURMA
 # =========================
+
+#Classe bem importante, pois ela faz a ligação entre alunos, professores e disciplinas
+
 class Turma:
     def __init__(self, id_turma: int, nome: str, ano_letivo: int):
         self.__id_turma = id_turma
@@ -195,7 +196,9 @@ class Turma:
 
         self.__alunos: List[Aluno] = []
         # vínculos: quais professores lecionam quais disciplinas nesta turma
-        self.__professor_disciplina: List[tuple[Professor, Disciplina]] = []
+        #conceito bem legal, aqui eu coloco um professor vinculado a uma tupla, onda essa tupla tem a disciplina junto a turma
+        # Assim cada elemento da lista desses professores é uma tupla (professor, disciplina). Evita erro de vincular professor a disciplina errada
+        self.__professor_disciplina: List[tuple[Professor, Disciplina]] = [] #
 
         if not self.__nome:
             raise ValueError("Nome da turma não pode ser vazio.")
@@ -225,6 +228,8 @@ class Turma:
             self.__alunos.append(aluno)
             aluno._vincular_turma(self)
 
+    #aqui é criado um vínculo entre o professor e a disciplina que ele leciona nessa turma. Pois se não tiver esse vínculo, o professor não pode lançar notas nessa disciplina
+    # muito importante, pois esse metodo é fundamental na classe professor para validar se o professor pode lançar notas e faltas nessa turma e disciplina
     def vincular_professor_disciplina(self, professor: "Professor", disciplina: "Disciplina") -> None:
         par = (professor, disciplina)
         if par not in self.__professor_disciplina:
@@ -232,6 +237,7 @@ class Turma:
             professor._vincular_turma(self)
             professor._vincular_disciplina(disciplina)
 
+    #valida se tem esse vínculo entre professor e disciplina nessa turma
     def tem_professor_disciplina(self, professor: "Professor", disciplina: "Disciplina") -> bool:
         return (professor, disciplina) in self.__professor_disciplina
 
@@ -239,6 +245,9 @@ class Turma:
 # =========================
 # AVALIAÇÃO (NOTA)
 # =========================
+
+
+#
 class Avaliacao:
     def __init__(self, aluno: Aluno, professor: Professor, turma: Turma, disciplina: Disciplina, valor: float, data_avaliacao: date):
         self.__aluno = aluno
@@ -247,6 +256,7 @@ class Avaliacao:
         self.__disciplina = disciplina
         self.__data_avaliacao = data_avaliacao
 
+        #Evitamos nota errado entrando no sistema, chamando o setter que tem as validações das notas
         self.__valor = 0.0
         self.set_valor(valor)
 
@@ -269,6 +279,7 @@ class Avaliacao:
         return self.__valor
 
     def set_valor(self, valor: float) -> None:
+        # essa função é muito massa. Usamos para verificar se o valor é de um determinado tipo, que nesse caso é int ou float
         if not isinstance(valor, (int, float)):
             raise ValueError("Nota deve ser numérica.")
         if valor < 0 or valor > 10:
@@ -279,6 +290,9 @@ class Avaliacao:
 # =========================
 # FALTA
 # =========================
+
+# A classe de falta registra uma falta de um aluno em uma turma em uma data específica
+# Ela se inicia como não justificada, mas pode ser justificada posteriormente com um motivo
 class Falta:
     def __init__(self, aluno: Aluno, turma: Turma, data_falta: date):
         self.__aluno = aluno
@@ -287,6 +301,7 @@ class Falta:
         self.__justificada = False
         self.__motivo_justificativa: Optional[str] = None
 
+    # os getters privados, permitem o acesso aos atributos da falta sem poder modificá-los diretamente
     def get_aluno(self) -> Aluno:
         return self.__aluno
 
@@ -299,40 +314,13 @@ class Falta:
     def is_justificada(self) -> bool:
         return self.__justificada
 
+    # Aqui o motivo da justificativa pdoe ser none, caso a falta ainda não tenha sido justificada
     def get_motivo_justificativa(self) -> Optional[str]:
         return self.__motivo_justificativa
 
     def justificar(self, motivo: str) -> None:
-        motivo = (motivo or "").strip()
+        motivo = (motivo or "").strip() # o strip evita casos de o usuário só colocar espaços em branco
         if not motivo:
             raise ValueError("Informe um motivo para justificar a falta.")
         self.__justificada = True
         self.__motivo_justificativa = motivo
-
-
-#Esse IF é usado para executar o programa
-if __name__ == "__main__":
-    #Esses dados ficticios foram criados para testes do programa 
-
-    # Usuários
-    prof = Professor(1, "Ana Professora", "ana@escola.com",)
-    aluno = Aluno(2, "João Aluno", "joao@escola.com", "MAT2025-001", date(2010, 5, 10))
-    resp = Responsavel(3, "Maria Responsável", "maria@familia.com")
-
-    # Vínculos
-    resp.vincular_aluno(aluno)
-
-    matematica = Disciplina(1, "Matemática")
-    turma_6a = Turma(1, "6º A", 2025)
-
-    turma_6a.adicionar_aluno(aluno)
-    turma_6a.vincular_professor_disciplina(prof, matematica)
-
-    # Lançamentos
-    nota1 = prof.lancar_nota(aluno, turma_6a, matematica, 8.5, date.today())
-    falta1 = prof.registrar_falta(aluno, turma_6a, date.today())
-    falta1.justificar("Consulta médica")
-
-    print("Aluno:", aluno.get_nome(), aluno.get_matricula())
-    print("Nota:", nota1.get_valor(), "Disciplina:", nota1.get_disciplina().get_nome())
-    print("Falta justificada:", falta1.is_justificada(), "-", falta1.get_motivo_justificativa())
