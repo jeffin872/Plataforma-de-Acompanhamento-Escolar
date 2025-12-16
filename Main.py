@@ -324,3 +324,91 @@ class Falta:
             raise ValueError("Informe um motivo para justificar a falta.")
         self.__justificada = True
         self.__motivo_justificativa = motivo
+
+   
+# Executando um teste do sistema
+
+
+if __name__ == "__main__":
+    print("=== Iniciando teste da Plataforma de Acompanhamento Escolar ===\n")
+
+    # Criando usuários
+    aluno1 = Aluno(
+        id_usuario=1,
+        nome="Carlos Silva",
+        email="carlos@email.com",
+        matricula="2025001",
+        data_nascimento=date(2008, 5, 20)
+    )
+
+    professor1 = Professor(
+        id_usuario=2,
+        nome="Maria Oliveira",
+        email="maria@escola.com"
+    )
+
+    responsavel1 = Responsavel(
+        id_usuario=3,
+        nome="João Silva",
+        email="joao.responsavel@email.com"
+    )
+
+    # Criando disciplina e turma
+    disciplina1 = Disciplina(
+        id_disciplina=1,
+        nome="Matemática"
+    )
+
+    turma1 = Turma(
+        id_turma=1,
+        nome="9º Ano A",
+        ano_letivo=2025
+    )
+
+    # Vinculando aluno à turma
+    turma1.adicionar_aluno(aluno1)
+
+    # Vinculando responsável ao aluno
+    responsavel1.vincular_aluno(aluno1)
+
+    # Vinculando professor à disciplina na turma
+    turma1.vincular_professor_disciplina(professor1, disciplina1)
+
+    print("Aluno, professor, responsável, turma e disciplina criados com sucesso.\n")
+
+    # Professor lança uma nota
+    avaliacao1 = professor1.lancar_nota(
+        aluno=aluno1,
+        turma=turma1,
+        disciplina=disciplina1,
+        valor=8.5,
+        data_avaliacao=date.today()
+    )
+
+    print(f"Nota lançada: {avaliacao1.get_valor()} em {avaliacao1.get_disciplina().get_nome()}")
+
+    # Professor registra uma falta
+    falta1 = professor1.registrar_falta(
+        aluno=aluno1,
+        turma=turma1,
+        data_falta=date.today()
+    )
+
+    print("Falta registrada.")
+
+    # Justificando a falta
+    falta1.justificar("Atestado médico")
+
+    print("Falta justificada.")
+    print(f"Motivo: {falta1.get_motivo_justificativa()}\n")
+
+    # Jutando alguma consultas com os dados criados na tela 
+    print("=== CONSULTAS ===")
+    print("Aluno:", aluno1.get_nome())
+    print("Turmas do aluno:", [t.get_nome() for t in aluno1.get_turmas()])
+    print("Notas do aluno:", [a.get_valor() for a in aluno1.get_avaliacoes()])
+    print("Total de faltas:", len(aluno1.get_faltas()))
+    print("Responsável:", responsavel1.get_nome())
+    print("Alunos do responsável:", [a.get_nome() for a in responsavel1.get_alunos()])
+
+    print("\n=== Teste finalizado com sucesso ===")
