@@ -1,8 +1,5 @@
 #Esse import serve para quando fizemos uma chamada em algo que não existe ainda. Resolve problemas de referências futuras 
 from __future__ import annotations
-# o ABC serve para dizer que é um modelo abstrato, usamos isso na classe usuários,
-#pois ela não é instaciada diretamente, serve como base para as outras classes
-from abc import ABC
 # o datetime é para mostrar datas, como a data de nascimento e futuras datas de avaliação e etc..
 from datetime import date
 
@@ -14,7 +11,7 @@ from typing import List, Optional
 # ----------------------------
 # USUÁRIO (CLASSE GERAL) essa classe vai ser usada pelos outros usuário que vão herdar os atributos 
 # ----------------------------
-class Usuario(ABC):
+class Usuario:
     def __init__(self, id_usuario: int, nome: str, email: str):
         self.__id_usuario = id_usuario             # privado (ela será a chave primaria, ou seja, não deve mudar)
         self.__nome = nome                         # privado
