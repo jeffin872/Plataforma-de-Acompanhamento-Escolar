@@ -78,7 +78,7 @@ class Aluno(Usuario):
         return self.__avaliacoes.copy()
 
     def get_faltas(self) -> List["Falta"]:
-        return self.__faltas.copy()
+        return self.__faltas.copy() #
 
     # Métodos de domínio (uso interno do sistema), ou seja, são ações que os sistema vai fazer sem a intervenção do usuário
     # Esses métodos são chamados por outras classes para registrar vínculos e eventos
