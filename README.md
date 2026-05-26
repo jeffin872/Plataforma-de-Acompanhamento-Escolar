@@ -1,4 +1,4 @@
-# Painel de Cooperação Escolar
+# Plataforma de Acompanhamento Escolar
 
 Protótipo de alta fidelidade de um sistema web para acompanhamento educacional, desenvolvido como parte do Entregável Parcial 1 (EP1) da disciplina Projeto Integrado III.
 
