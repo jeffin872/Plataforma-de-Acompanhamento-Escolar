@@ -1,0 +1,36 @@
+.selo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  border: 2px solid currentColor;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+}
+
+.md {
+  width: 40px;
+  height: 40px;
+  font-size: 11px;
+}
+
+.sm {
+  width: 30px;
+  height: 30px;
+  font-size: 9px;
+}
+
+.admin {
+  color: var(--color-perfil-admin);
+  background: var(--color-perfil-admin-soft);
+}
+.professor {
+  color: var(--color-perfil-professor);
+  background: var(--color-perfil-professor-soft);
+}
+.responsavel {
+  color: var(--color-perfil-responsavel);
+  background: var(--color-perfil-responsavel-soft);
+}

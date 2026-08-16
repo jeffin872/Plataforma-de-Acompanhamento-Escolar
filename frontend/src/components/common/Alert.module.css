@@ -1,0 +1,26 @@
+.alerta {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 500;
+  border: 1px solid transparent;
+  line-height: 1.4;
+}
+
+.erro {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+  border-color: rgba(179, 69, 44, 0.25);
+}
+
+.sucesso {
+  background: var(--color-success-soft);
+  color: var(--color-success);
+  border-color: rgba(63, 125, 74, 0.25);
+}
+
+.info {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-dark);
+  border-color: rgba(45, 91, 78, 0.2);
+}

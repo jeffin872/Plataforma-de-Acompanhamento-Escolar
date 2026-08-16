@@ -1,0 +1,23 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-2);
+  padding: var(--space-7) var(--space-4);
+  color: var(--color-ink-soft);
+}
+
+.titulo {
+  font-size: 15px;
+  color: var(--color-ink);
+}
+
+.descricao {
+  font-size: 13px;
+  max-width: 40ch;
+}
+
+.acao {
+  margin-top: var(--space-2);
+}

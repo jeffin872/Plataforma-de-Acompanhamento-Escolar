@@ -1,0 +1,145 @@
+.topbar {
+  height: var(--topbar-height);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-5);
+  background: var(--color-paper-raised);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.esquerda {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.titulo {
+  font-size: 18px;
+}
+
+.botaoMenu {
+  display: none;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-strong);
+  background: transparent;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+.iconeMenu,
+.iconeMenu::before,
+.iconeMenu::after {
+  content: "";
+  display: block;
+  width: 16px;
+  height: 2px;
+  background: var(--color-ink);
+  position: relative;
+}
+.iconeMenu::before {
+  position: absolute;
+  top: -5px;
+}
+.iconeMenu::after {
+  position: absolute;
+  top: 5px;
+}
+
+.usuarioMenu {
+  position: relative;
+}
+
+.botaoUsuario {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: var(--space-2);
+  border-radius: var(--radius-md);
+}
+.botaoUsuario:hover {
+  background: var(--color-primary-soft);
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  background: var(--color-primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.nomeUsuario {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.dropdown {
+  position: absolute;
+  right: 0;
+  top: calc(100% + var(--space-2));
+  width: 240px;
+  background: var(--color-paper-raised);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  z-index: 20;
+}
+
+.dropdownCabecalho {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.dropdownNome {
+  font-size: 13px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.dropdownEmail {
+  font-size: 12px;
+  color: var(--color-ink-soft);
+  margin: 0;
+  word-break: break-all;
+}
+
+.sair {
+  width: 100%;
+  text-align: left;
+  padding: var(--space-3) var(--space-4);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-danger);
+}
+.sair:hover {
+  background: var(--color-danger-soft);
+}
+
+@media (max-width: 900px) {
+  .botaoMenu {
+    display: flex;
+  }
+  .nomeUsuario {
+    display: none;
+  }
+}

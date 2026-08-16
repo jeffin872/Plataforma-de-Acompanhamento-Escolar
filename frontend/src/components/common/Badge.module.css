@@ -1,0 +1,32 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.neutro {
+  background: #eceee9;
+  color: var(--color-ink-soft);
+}
+.primario {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-dark);
+}
+.sucesso {
+  background: var(--color-success-soft);
+  color: var(--color-success);
+}
+.alerta {
+  background: var(--color-warning-soft);
+  color: #8a5416;
+}
+.perigo {
+  background: var(--color-danger-soft);
+  color: var(--color-danger);
+}

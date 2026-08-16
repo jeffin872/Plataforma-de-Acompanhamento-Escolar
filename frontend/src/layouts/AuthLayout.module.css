@@ -1,0 +1,84 @@
+.pagina {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+}
+
+.painelMarca {
+  position: relative;
+  background: var(--color-primary);
+  color: #fff;
+  display: flex;
+  align-items: flex-end;
+  padding: var(--space-8);
+  overflow: hidden;
+}
+
+/* Textura de "pauta de caderno": linhas horizontais finas, sutis —
+   o elemento de assinatura visual do produto (ver README.md). */
+.painelMarca::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.07) 0,
+    rgba(255, 255, 255, 0.07) 1px,
+    transparent 1px,
+    transparent 40px
+  );
+}
+
+.painelMarcaConteudo {
+  position: relative;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.instituicao {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.75);
+  font-weight: 600;
+}
+
+.tituloMarca {
+  font-family: var(--font-display);
+  font-size: 34px;
+  line-height: 1.15;
+  color: #fff;
+}
+
+.descricaoMarca {
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.painelFormulario {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6);
+  background: var(--color-paper);
+}
+
+@media (max-width: 860px) {
+  .pagina {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+  }
+  .painelMarca {
+    padding: var(--space-6) var(--space-5);
+    align-items: flex-start;
+  }
+  .tituloMarca {
+    font-size: 24px;
+  }
+  .descricaoMarca {
+    display: none;
+  }
+}
