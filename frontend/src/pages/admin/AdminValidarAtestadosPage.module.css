@@ -1,0 +1,158 @@
+/* Layout em duas colunas: fila de pendências à esquerda, análise do
+   documento selecionado à direita — inspirado na tela "Validar atestados"
+   do protótipo de alta fidelidade. */
+.duasColunas {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) minmax(320px, 1.15fr);
+  gap: var(--space-5);
+  align-items: start;
+}
+
+@media (max-width: 860px) {
+  .duasColunas {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- Coluna esquerda: lista de pendências --- */
+.lista {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-height: 640px;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+.itemLista {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  width: 100%;
+  text-align: left;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-paper-raised);
+  cursor: pointer;
+  transition: border-color var(--transition-fast), background var(--transition-fast);
+  font: inherit;
+  color: inherit;
+}
+
+.itemLista:hover {
+  border-color: var(--color-primary);
+}
+
+.itemListaSelecionado {
+  border-color: var(--color-primary);
+  background: var(--color-primary-soft);
+}
+
+.itemListaTopo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.itemListaNome {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.itemListaDetalhe {
+  font-size: 12px;
+  color: var(--color-ink-soft);
+}
+
+/* --- Coluna direita: análise do documento --- */
+.painelAnalise {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.previewBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-md);
+  background: var(--color-paper);
+  overflow: hidden;
+}
+
+.previewImagem {
+  max-width: 100%;
+  max-height: 360px;
+  object-fit: contain;
+}
+
+.previewIframe {
+  width: 100%;
+  height: 420px;
+  border: none;
+}
+
+.previewIndisponivel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-6) var(--space-4);
+  text-align: center;
+}
+
+.selo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  color: var(--color-danger);
+  background: var(--color-danger-soft);
+}
+
+.nomeArquivo {
+  font-weight: 600;
+  font-size: 14px;
+  word-break: break-word;
+}
+
+.acoesArquivo {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.dadosVinculados {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3) var(--space-4);
+}
+
+.dadosVinculadosItem dt {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-ink-soft);
+  margin-bottom: 2px;
+}
+
+.dadosVinculadosItem dd {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.acoesDecisao {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: flex-end;
+}

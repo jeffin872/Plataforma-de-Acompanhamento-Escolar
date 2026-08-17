@@ -85,3 +85,26 @@ export async function buscarDashboardAdmin() {
   const { data } = await api.get(ENDPOINTS.ADMIN_DASHBOARD);
   return data.dados;
 }
+
+// ---------------------------------------------------------------------------
+// Fluxo MVP "Gestão de Faltas e Atestados" (armazenamento em memória)
+// Espelha app/fluxo_faltas/routes.py -> admin_atestados_bp.
+// ---------------------------------------------------------------------------
+
+/** Lista os atestados enviados. Por padrão só os "Em Análise" (fila de trabalho). */
+export async function listarAtestadosPendentesMvp(status = "Em Análise") {
+  const { data } = await api.get(ENDPOINTS.ADMIN_DOCUMENTOS_PENDENTES, {
+    params: { status },
+  });
+  return data.dados;
+}
+
+/** acao: "aprovar" | "rejeitar". Se aprovado, a falta vinculada vira "Justificada". */
+export async function validarAtestadoMvp(atestadoId, acao, observacao) {
+  const { data } = await api.post(ENDPOINTS.ADMIN_DOCUMENTOS_VALIDAR, {
+    atestado_id: atestadoId,
+    acao,
+    observacao,
+  });
+  return data.dados;
+}

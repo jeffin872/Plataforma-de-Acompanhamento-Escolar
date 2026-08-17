@@ -1,0 +1,57 @@
+.tabelaWrapper {
+  overflow-x: auto;
+}
+
+.tabela {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.tabela th {
+  text-align: left;
+  padding: var(--space-3) var(--space-4);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-ink-soft);
+  border-bottom: 2px solid var(--color-border-strong);
+  white-space: nowrap;
+}
+
+.tabela td {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: middle;
+}
+
+.tabela tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.tabela tbody tr:hover {
+  background: var(--color-primary-soft);
+}
+
+.celulaAcoes {
+  display: flex;
+  gap: var(--space-2);
+  justify-content: flex-end;
+}
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.linhaFormulario {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-4);
+}
+
+.rodapeFormulario {
+  display: flex;
+  justify-content: flex-end;
+}

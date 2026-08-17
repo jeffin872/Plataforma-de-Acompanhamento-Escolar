@@ -45,20 +45,20 @@ export const NAV_ITEMS_POR_PERFIL = {
     { rotulo: "Turmas", rota: "/admin/turmas", implementado: false },
     { rotulo: "Usuários", rota: "/admin/usuarios", implementado: false },
     { rotulo: "Vínculos", rota: "/admin/vinculos", implementado: false },
-    { rotulo: "Documentos pendentes", rota: "/admin/documentos", implementado: false },
+    { rotulo: "Documentos pendentes", rota: "/admin/documentos", implementado: true },
     { rotulo: "Histórico escolar", rota: "/admin/historico", implementado: false },
   ],
   [PERFIS.PROFESSOR]: [
     { rotulo: "Visão geral", rota: "/professor", implementado: true },
     { rotulo: "Minhas turmas", rota: "/professor/turmas", implementado: false },
     { rotulo: "Lançar notas", rota: "/professor/notas", implementado: false },
-    { rotulo: "Lançar faltas", rota: "/professor/faltas", implementado: false },
+    { rotulo: "Lançar faltas", rota: "/professor/faltas", implementado: true },
     { rotulo: "Ocorrências", rota: "/professor/ocorrencias", implementado: false },
   ],
   [PERFIS.RESPONSAVEL]: [
     { rotulo: "Visão geral", rota: "/responsavel", implementado: true },
     { rotulo: "Meus alunos", rota: "/responsavel/alunos", implementado: false },
-    { rotulo: "Documentos", rota: "/responsavel/documentos", implementado: false },
+    { rotulo: "Documentos", rota: "/responsavel/documentos", implementado: true },
     { rotulo: "Notificações", rota: "/responsavel/notificacoes", implementado: false },
   ],
 };

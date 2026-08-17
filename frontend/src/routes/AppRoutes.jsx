@@ -5,6 +5,9 @@ import LoginPage from "../pages/auth/LoginPage.jsx";
 import AdminDashboardPage from "../pages/admin/AdminDashboardPage.jsx";
 import ProfessorDashboardPage from "../pages/professor/ProfessorDashboardPage.jsx";
 import ResponsavelDashboardPage from "../pages/responsavel/ResponsavelDashboardPage.jsx";
+import ProfessorRegistroAcademicoPage from "../pages/professor/ProfessorRegistroAcademicoPage.jsx";
+import ResponsavelEnvioAtestadoPage from "../pages/responsavel/ResponsavelEnvioAtestadoPage.jsx";
+import AdminValidarAtestadosPage from "../pages/admin/AdminValidarAtestadosPage.jsx";
 import NotFoundPage from "../pages/shared/NotFoundPage.jsx";
 import UnauthorizedPage from "../pages/shared/UnauthorizedPage.jsx";
 import { useAuth } from "../hooks/useAuth.js";
@@ -29,7 +32,8 @@ export default function AppRoutes() {
       <Route element={<ProtectedRoute perfisPermitidos={[PERFIS.ADMIN]} />}>
         <Route path="/admin" element={<DashboardLayout />}>
           <Route index element={<AdminDashboardPage />} />
-          {/* Próximas rotas (turmas, usuários, vínculos, documentos)
+          <Route path="documentos" element={<AdminValidarAtestadosPage />} />
+          {/* Próximas rotas (turmas, usuários, vínculos, histórico)
               entram aqui como filhas de /admin, reaproveitando o mesmo
               DashboardLayout — ver "Relatório de Continuidade". */}
         </Route>
@@ -39,6 +43,7 @@ export default function AppRoutes() {
       <Route element={<ProtectedRoute perfisPermitidos={[PERFIS.PROFESSOR]} />}>
         <Route path="/professor" element={<DashboardLayout />}>
           <Route index element={<ProfessorDashboardPage />} />
+          <Route path="faltas" element={<ProfessorRegistroAcademicoPage />} />
         </Route>
       </Route>
 
@@ -46,6 +51,7 @@ export default function AppRoutes() {
       <Route element={<ProtectedRoute perfisPermitidos={[PERFIS.RESPONSAVEL]} />}>
         <Route path="/responsavel" element={<DashboardLayout />}>
           <Route index element={<ResponsavelDashboardPage />} />
+          <Route path="documentos" element={<ResponsavelEnvioAtestadoPage />} />
         </Route>
       </Route>
 

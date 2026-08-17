@@ -37,12 +37,24 @@ def create_app(config_class=Config):
     from app.academic.routes import academic_bp
     from app.responsavel.routes import responsavel_bp
     from app.documents.routes import documents_bp
+    from app.fluxo_faltas.routes import (
+        professor_faltas_bp,
+        documentos_atestados_bp,
+        admin_atestados_bp,
+    )
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(admin_bp)
     app.register_blueprint(academic_bp)
     app.register_blueprint(responsavel_bp)
     app.register_blueprint(documents_bp)
+
+    # Fluxo "Gestão de Faltas e Atestados" — MVP com armazenamento em
+    # memória (ver app/fluxo_faltas/store.py), independente do fluxo real
+    # de Falta/Documento acima, que continua gravando no PostgreSQL.
+    app.register_blueprint(professor_faltas_bp)
+    app.register_blueprint(documentos_atestados_bp)
+    app.register_blueprint(admin_atestados_bp)
 
     @app.get("/api/saude")
     def saude():

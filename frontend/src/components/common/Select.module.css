@@ -1,0 +1,57 @@
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.rotulo {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.select {
+  height: 46px;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border-strong);
+  background: var(--color-paper-raised);
+  color: var(--color-ink);
+  cursor: pointer;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  /* Seta customizada, discreta, na cor de tinta do design system. */
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%2346554f' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--space-4) center;
+  padding-right: var(--space-7);
+}
+
+.select:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-soft);
+}
+
+.comErro {
+  border-color: var(--color-danger);
+}
+.comErro:focus {
+  box-shadow: 0 0 0 3px var(--color-danger-soft);
+}
+
+.dica {
+  font-size: 12px;
+  color: var(--color-ink-soft);
+}
+
+.mensagemErro {
+  font-size: 12px;
+  color: var(--color-danger);
+  font-weight: 500;
+}

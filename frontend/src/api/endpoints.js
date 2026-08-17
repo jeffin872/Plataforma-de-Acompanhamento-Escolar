@@ -44,5 +44,13 @@ export const ENDPOINTS = {
   DOCUMENTO: (id) => `/api/documentos/${id}`,
   DOCUMENTO_ARQUIVO: (nomeArquivo) => `/api/documentos/arquivo/${nomeArquivo}`,
 
+  // --- app/fluxo_faltas/routes.py — MVP "Gestão de Faltas e Atestados" ---
+  // (armazenamento em memória, ver backend/app/fluxo_faltas/store.py)
+  PROFESSOR_FALTAS: "/api/professor/faltas",
+  DOCUMENTOS_FALTAS_DO_ALUNO: (alunoId) => `/api/documentos/faltas/${alunoId}`,
+  DOCUMENTOS_UPLOAD: "/api/documentos/upload",
+  ADMIN_DOCUMENTOS_PENDENTES: "/api/admin/documentos/pendentes",
+  ADMIN_DOCUMENTOS_VALIDAR: "/api/admin/documentos/validar",
+
   SAUDE: "/api/saude",
 };
