@@ -1,7 +1,7 @@
 from flask import Blueprint, request, send_from_directory, current_app
 
 from app.extensions import db
-from app.models import Documento, ResponsavelAluno, Aluno, Notificacao
+from app.models import Documento, ResponsavelAluno, Notificacao
 from app.models.documento import STATUS_VALIDOS
 from app.utils.responses import sucesso, erro
 from app.auth.decorators import perfil_requerido, usuario_logado_id

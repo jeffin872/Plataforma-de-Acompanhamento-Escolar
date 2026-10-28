@@ -1,5 +1,7 @@
 # Plataforma de Acompanhamento Escolar
 
+[![CI](https://github.com/jeffin872/Plataforma-de-Acompanhamento-Escolar/actions/workflows/ci.yml/badge.svg)](https://github.com/jeffin872/Plataforma-de-Acompanhamento-Escolar/actions/workflows/ci.yml)
+
 ## 1. Descrição do Projeto
 
 A aplicação busca centralizar informações escolares que muitas vezes ficam espalhadas entre mensagens, documentos, reuniões e diferentes sistemas. O objetivo é criar uma plataforma que facilite a comunicação entre escola, professores e responsáveis, permitindo o acompanhamento de informações como notas, faltas, ocorrências, documentos e notificações.
@@ -138,7 +140,7 @@ npm run dev
 
 O projeto foi desenvolvido de forma incremental e ágil. Primeiro, a equipe criou um protótipo de alta fidelidade no Figma. Durante o desenvolvimento do MVP, as tarefas foram divididas entre frontend, backend, banco de dados, integração, testes e documentação.
 
-O GitHub foi utilizado para controle de versão e organização do código, com commits realizados conforme as funcionalidades e correções eram desenvolvidas, garantindo um histórico limpo e incremental.
+O GitHub foi utilizado para controle de versão e organização do código, com commits realizados conforme as funcionalidades e correções eram desenvolvidas.
 
 **Desafios e Soluções:** Durante a Sprint, algumas dificuldades apareceram somente na execução real do projeto, como incompatibilidade de uma dependência do backend com o Python 3.13 e uma configuração externa de gerenciadores de pacotes (Next.js vs Vite) que interferia no frontend. Esses problemas foram corrigidos com sucesso durante os testes locais por meio de *clean installs* e ajustes no `.gitignore` para proteção de dados sensíveis.
 
@@ -166,7 +168,66 @@ Mesmo estando em uma etapa inicial, a plataforma busca aproximar a família da e
 
 ---
 
-## 7. Status do Projeto
+## 7. Integração Contínua (EP1 - GitHub Actions)
+
+### 7.1 Objetivo
+Este repositório possui um pipeline de **Integração Contínua (CI)** configurado com o **GitHub Actions**. O objetivo é verificar o código automaticamente a cada alteração, garantindo que o backend continue passando nos testes e que o frontend continue compilando, antes que o código seja aceito na branch `main`.
+
+### 7.2 Onde fica e quando roda
+O pipeline está definido em [`.github/workflows/ci.yml`](.github/workflows/ci.yml) e é executado:
+* a cada **push** na branch `main`;
+* a cada **Pull Request** aberto para a `main`;
+* manualmente, na aba **Actions** do GitHub (botão *Run workflow*).
+
+### 7.3 O que o pipeline faz
+O workflow tem dois jobs independentes, que rodam em paralelo em uma máquina `ubuntu-latest`:
+
+| Job | Etapas | Para que serve |
+|-----|--------|----------------|
+| **backend** | Instala Python 3.12 → instala dependências (`requirements-dev.txt`) → `flake8` (lint) → `pytest` (testes) | Detecta erros de sintaxe, imports sobrando e quebras de lógica na API |
+| **frontend** | Instala Node 20 → `npm ci` → `npm run build` | Garante que o React/Vite compila sem erros |
+
+**Testes automatizados (`backend/tests/`):** são 10 testes que cobrem o endpoint de saúde, o login (credenciais válidas, inválidas e vazias), a proteção de rotas por token JWT (401 sem token), a separação por perfil (professor recebendo 403 em rota de admin) e o armazenamento de senha como hash. Eles usam **SQLite em memória**, então não precisam de PostgreSQL nem de arquivo `.env`, e por isso rodam igual no computador e no GitHub.
+
+**Decisões de configuração:**
+* `npm ci` e `cache` de pip/npm: instalação reproduzível (usa exatamente o `package-lock.json`) e mais rápida.
+* Jobs separados: se o frontend quebrar, dá para ver que o backend continua OK (e vice-versa).
+* `requirements-dev.txt`: mantém `pytest` e `flake8` fora das dependências de produção.
+
+### 7.4 Como rodar a mesma verificação localmente
+```bash
+# Backend
+cd backend
+pip install -r requirements-dev.txt
+flake8 .
+pytest -v
+
+# Frontend
+cd ../frontend
+npm ci
+npm run build
+```
+
+### 7.5 Como ver o resultado no GitHub
+1. Abra o repositório no GitHub e clique na aba **Actions**.
+2. Selecione a execução mais recente do workflow **CI - Integração Contínua**.
+3. Um check verde (✔) indica que tudo passou; um vermelho (✘) indica falha, e dá para abrir o job para ler o log do passo que falhou.
+
+### 7.6 O que é Integração Contínua? (Componente Extensionista)
+Integração contínua é uma prática em que, toda vez que alguém do time envia código novo para o repositório, um robô roda automaticamente uma série de verificações: instala o projeto, confere o estilo do código, roda os testes e tenta gerar o build. Se algo der errado, o time é avisado na hora, e não só dias depois, quando já tem muita coisa misturada.
+
+Para quem está aprendendo a programar, isso ajuda por alguns motivos:
+* **Feedback rápido:** você descobre o erro minutos depois de enviá-lo, quando ainda lembra o que mexeu.
+* **Menos "na minha máquina funciona":** o robô roda em um ambiente limpo, então revela dependências esquecidas ou arquivos que só existiam no seu computador.
+* **Segurança para mudar o código:** com testes rodando sozinhos, dá menos medo de refatorar ou de aceitar contribuição de colegas.
+* **Hábito profissional:** CI é padrão em praticamente qualquer empresa de software, então aprender cedo já prepara para o mercado.
+* **Trabalho em equipe:** o time todo enxerga o mesmo resultado, e o Pull Request só deve ser aceito quando o check estiver verde.
+
+Se você é estudante da UFCA e quer testar, basta criar uma pasta `.github/workflows/` no seu projeto, colocar um arquivo `.yml` com os passos (como o deste repositório) e dar um push. A aba **Actions** do GitHub passa a mostrar a execução.
+
+---
+
+## 8. Status do Projeto
 
 **Status:** MVP Inicial Funcional.
 
